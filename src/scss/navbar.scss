@@ -1,0 +1,15 @@
+.sm-nav {
+    display: flex;
+    padding: $spacing;
+    background-color: $primary-color;
+    color: $secondary-color;
+    align-items: center;
+    justify-content: space-between;
+
+    .sm-title {
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+    }
+}

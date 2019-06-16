@@ -1,0 +1,43 @@
+.sm-button {
+    padding: $spacing $spacing*2;
+    border: none;
+    border-radius: $border-radius;
+    font-size: $font-size;
+    background-color: $secondary-color;
+    color: $primary-color;
+
+    &:hover:not([disabled]) {
+        cursor: pointer;
+    }
+
+    &.sm-primary {
+        background-color: $primary-color;
+        color: $secondary-color;
+    }
+
+    &:not(:first-of-type) {
+        margin-left: $spacing;
+    }
+
+    &.sm-icon {
+        font-size: $font-size * 0.8;
+        background-color: #e7e8da;
+        color: #5c5d56;
+        border-radius: 16px;
+    }
+
+    &.sm-effect {
+        background-position: center;
+        transition: background 0.8s;
+
+        &:hover {
+            background: #eceddc radial-gradient(circle, transparent 1%, #eceddc 1%) center/15000%;
+        }
+
+        &:active {
+            background-color: #feffef;
+            background-size: 100%;
+            transition: background 0s;
+        }
+    }
+}

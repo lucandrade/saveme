@@ -1,0 +1,39 @@
+.sm-notes {
+    display: block;
+    padding: $spacing;
+
+    ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+            list-style-type: none;
+            display: flex;
+            align-items: baseline;
+
+            .sm-note-content {
+                flex: 1;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                .sm-note-title {
+                    font-size: $font-size * 1.3;
+                    font-weight: 600;
+                    margin-bottom: $spacing / 3;
+                }
+
+                .sm-note-text {
+                    white-space: pre-line;
+                    font-size: $font-size * .9;
+                    opacity: .6;
+                }
+            }
+
+            .sm-note-actions {
+                width: 30%;
+            }
+        }
+    }
+}
