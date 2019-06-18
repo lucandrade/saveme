@@ -4,6 +4,7 @@ import NavBar from './Components/NavBar';
 import NoteList from './Components/NoteList';
 import NoteForm from './Components/NoteForm';
 import Pagination from './Components/Pagination';
+import SearchForm from './Components/SearchForm';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -19,6 +20,7 @@ export default class App extends Component {
                 index: null,
             },
             editing: false,
+            q: '',
         };
     }
 
@@ -26,8 +28,18 @@ export default class App extends Component {
         this.loadNotes();
     }
 
-    transformNotes(notes) {
-        const copy = notes.slice(0).map((n, i) => {
+    filterNotes(notes) {
+        const { q } = this.state;
+
+        if (!q) {
+            return notes;
+        }
+
+        return notes.filter(n => n.text.toLowerCase().includes(q.toLowerCase()));
+    }
+
+    fillNotes(notes) {
+        return notes.map((n, i) => {
             n.index = i;
 
             if (n.hasOwnProperty('createdAt')) {
@@ -38,14 +50,23 @@ export default class App extends Component {
 
             return n;
         });
+    }
 
-        return copy.sort((a, b) => {
+    sortNotes(notes) {
+        return notes.sort((a, b) => {
             if (!a.createdAt || !b.createdAt) {
                 return 1;
             }
 
             return b.createdAt - a.createdAt;
         });
+    }
+
+    transformNotes(notes) {
+        let finalNotes = notes.slice(0);
+        finalNotes = this.filterNotes(finalNotes);
+        finalNotes = this.fillNotes(finalNotes);
+        return this.sortNotes(finalNotes);
     }
 
     getNumberOfPages(notes) {
@@ -57,11 +78,12 @@ export default class App extends Component {
     }
 
     getNotesForCurrentPage(page, notes) {
-        const copy = this.transformNotes(notes);
+        const formattedNotes = this.transformNotes(notes);
+        const copy = formattedNotes.slice(0);
         const start = (page - 1) * ITEMS_PER_PAGE;
         const pageNotes = copy.splice(start, ITEMS_PER_PAGE);
 
-        return pageNotes;
+        return { formattedNotes, pageNotes };
     }
 
     async loadNotes() {
@@ -136,7 +158,7 @@ export default class App extends Component {
 
         await Storage.save(notes);
 
-        const pageNotes = this.getNotesForCurrentPage(page, notes);
+        const { pageNotes } = this.getNotesForCurrentPage(page, notes);
 
         if (pageNotes.length < 1 && page > 0) {
             this.setState({ notes, page: page - 1 });
@@ -178,6 +200,13 @@ export default class App extends Component {
         });
     }
 
+    onChangeQuery(q) {
+        this.setState({
+            q,
+            page: 1,
+        });
+    }
+
     renderLoading() {
         return (
             <div className="sm-loading">
@@ -193,21 +222,27 @@ export default class App extends Component {
             return this.renderLoading();
         }
 
-        const { editing, notes, note, page } = this.state;
+        const { editing, notes, note, page, q } = this.state;
         let listing = null;
+        let search = null;
+        const { formattedNotes, pageNotes } = this.getNotesForCurrentPage(page, notes);
 
         if (!editing) {
             listing = (
-                <NoteList notes={this.getNotesForCurrentPage(page, notes)}
+                <NoteList notes={pageNotes}
                     onEdit={this.onEdit.bind(this)}
                     onRemove={this.onRemove.bind(this)}
                     onCopy={this.onCopy.bind(this)} />
+            );
+            search = (
+                <SearchForm q={q} onChange={this.onChangeQuery.bind(this)} />
             );
         }
 
         return (
             <div className="sm-app sm-loaded">
                 <NavBar onClear={this.onClearNotes.bind(this)} />
+                {search}
                 <NoteForm editing={editing}
                     note={note}
                     onChange={this.onChange.bind(this)}
@@ -216,7 +251,7 @@ export default class App extends Component {
                     onSave={this.onSave.bind(this)} />
                 {listing}
                 <Pagination page={page}
-                    pages={this.getNumberOfPages(notes)}
+                    pages={this.getNumberOfPages(formattedNotes)}
                     onClick={this.onChangePage.bind(this)} />
             </div>
         );

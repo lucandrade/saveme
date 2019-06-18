@@ -25,4 +25,10 @@
             min-height: 150px;
         }
     }
+
+    &.sm-form-search {
+        .sm-form-control {
+            margin-bottom: 0;
+        }
+    }
 }
