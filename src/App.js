@@ -134,7 +134,7 @@ export default class App extends Component {
         }
 
         return (
-            <div className="sm-app">
+            <div className="sm-app sm-loaded">
                 <NavBar onClear={this.onClearNotes.bind(this)} />
                 <NoteForm editing={this.state.editing}
                     note={this.state.note}

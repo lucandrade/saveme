@@ -10,8 +10,15 @@ html, body {
 }
 
 .sm-app {
+    display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 0;
     min-width: $app-width;
     min-height: $app-height;
+    overflow: hidden;
+
+    &.sm-loaded {
+        min-height: $app-height - 50px;
+    }
 }
