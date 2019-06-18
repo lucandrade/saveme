@@ -3,28 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from 'react';
 
 export default class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            q: '',
-        };
-    }
-
     onChange(event) {
         const { value } = event.target;
-        
-        this.setState({
-            q: value,
-        });
+        this.props.onChange(value);
     }
 
     onSubmit(event) {
         event.preventDefault();
-        this.props.onChange(this.state.q);
+        this.props.onSearch();
     }
 
     render() {
-        const { q } = this.state;
+        const { q } = this.props;
 
         return (
             <form className="sm-form sm-form-search" autoComplete="off" onSubmit={this.onSubmit.bind(this)}>

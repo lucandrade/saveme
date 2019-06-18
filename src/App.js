@@ -21,6 +21,7 @@ export default class App extends Component {
             },
             editing: false,
             q: '',
+            tempQ: '',
         };
     }
 
@@ -202,7 +203,21 @@ export default class App extends Component {
 
     onChangeQuery(q) {
         this.setState({
-            q,
+            tempQ: q,
+        });
+    }
+
+    onSearch() {
+        this.setState({
+            q: this.state.tempQ,
+            page: 1,
+        });
+    }
+
+    onClearSearch() {
+        this.setState({
+            q: '',
+            tempQ: '',
             page: 1,
         });
     }
@@ -222,7 +237,7 @@ export default class App extends Component {
             return this.renderLoading();
         }
 
-        const { editing, notes, note, page, q } = this.state;
+        const { editing, notes, note, page, q, tempQ } = this.state;
         let listing = null;
         let search = null;
         const { formattedNotes, pageNotes } = this.getNotesForCurrentPage(page, notes);
@@ -232,13 +247,15 @@ export default class App extends Component {
                 <NoteList notes={pageNotes}
                     total={formattedNotes.length}
                     q={q}
-                    onClear={this.onChangeQuery.bind(this, '')}
+                    onClear={this.onClearSearch.bind(this)}
                     onEdit={this.onEdit.bind(this)}
                     onRemove={this.onRemove.bind(this)}
                     onCopy={this.onCopy.bind(this)} />
             );
             search = (
-                <SearchForm q={q} onChange={this.onChangeQuery.bind(this)} />
+                <SearchForm q={tempQ}
+                    onChange={this.onChangeQuery.bind(this)}
+                    onSearch={this.onSearch.bind(this)} />
             );
         }
 
