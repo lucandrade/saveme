@@ -21,6 +21,18 @@ export default class App extends Component {
         this.loadNotes();
     }
 
+    transformNotes(notes) {
+        return notes.map(n => {
+            if (n.hasOwnProperty('createdAt')) {
+                if (typeof n.createdAt === 'string') {
+                    n.createdAt = new Date(n.createdAt);
+                }
+            }
+
+            return n;
+        });
+    }
+
     async loadNotes() {
         this.setState({ loading: true });
         const notes = await Storage.load();
@@ -41,16 +53,19 @@ export default class App extends Component {
         }
 
         const notes = this.state.notes.slice(0);
+        const now = new Date();
 
         if (index === null) {
             notes.push({
                 title,
-                text
+                text,
+                createdAt: now,
             });
         } else {
             notes[index] = {
                 title,
-                text
+                text,
+                updatedAt: now,
             };
         }
 
@@ -142,7 +157,7 @@ export default class App extends Component {
                     onNew={this.onNew.bind(this)}
                     onCancel={this.onCancel.bind(this)}
                     onSave={this.onSave.bind(this)} />
-                <NoteList notes={this.state.notes}
+                <NoteList notes={this.transformNotes(this.state.notes)}
                     onEdit={this.onEdit.bind(this)}
                     onRemove={this.onRemove.bind(this)}
                     onCopy={this.onCopy.bind(this)} />
