@@ -28,6 +28,11 @@ class StorageWeb {
             return false;
         }
     }
+
+    async clear() {
+        this.client.removeItem(STORAGE_KEY);
+        return true;
+    }
 }
 
 export default StorageWeb;

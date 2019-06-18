@@ -37,6 +37,23 @@ class StorageChrome {
             }
         });
     }
+
+    async clear() {
+        const me = this;
+        return new Promise(resolve => {
+            try {
+                me.client.storage.sync.remove([STORAGE_KEY], () => {
+                    if (me.client.runtime.lastError) {
+                        return resolve(false);
+                    }
+
+                    resolve(true);
+                });
+            } catch (e) {
+                resolve(false);
+            }
+        });
+    }
 }
 
 export default StorageChrome;

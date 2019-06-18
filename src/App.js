@@ -103,6 +103,21 @@ export default class App extends Component {
         textField.remove();
     }
 
+    async onClearNotes() {
+        if (this.state.notes.length < 1) {
+            return;
+        }
+        
+        await Storage.clear();
+        this.setState({
+            notes: [],
+            editing: false,
+            note: {
+                index: null,
+            },
+        });
+    }
+
     renderLoading() {
         return (
             <div className="sm-loading">
@@ -120,7 +135,7 @@ export default class App extends Component {
 
         return (
             <div className="sm-app">
-                <NavBar />
+                <NavBar onClear={this.onClearNotes.bind(this)} />
                 <NoteForm editing={this.state.editing}
                     note={this.state.note}
                     onChange={this.onChange.bind(this)}

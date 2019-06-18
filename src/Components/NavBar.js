@@ -6,7 +6,7 @@ export default class NavBar extends Component {
     renderMenuItems() {
         return (
             <ul>
-                <li>
+                <li onClick={this.props.onClear}>
                     Clear Notes
                 </li>
             </ul>
