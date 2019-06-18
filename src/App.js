@@ -27,7 +27,9 @@ export default class App extends Component {
     }
 
     transformNotes(notes) {
-        return notes.map(n => {
+        const copy = notes.slice(0).map((n, i) => {
+            n.index = i;
+
             if (n.hasOwnProperty('createdAt')) {
                 if (typeof n.createdAt === 'string') {
                     n.createdAt = new Date(n.createdAt);
@@ -35,6 +37,14 @@ export default class App extends Component {
             }
 
             return n;
+        });
+
+        return copy.sort((a, b) => {
+            if (!a.createdAt || !b.createdAt) {
+                return 1;
+            }
+
+            return b.createdAt - a.createdAt;
         });
     }
 
@@ -46,13 +56,12 @@ export default class App extends Component {
         return Math.ceil(notes.length / ITEMS_PER_PAGE);
     }
 
-    getNotesForCurrentPage(notes) {
-        const { page } = this.state;
-        const copy = notes.slice(0);
+    getNotesForCurrentPage(page, notes) {
+        const copy = this.transformNotes(notes);
         const start = (page - 1) * ITEMS_PER_PAGE;
         const pageNotes = copy.splice(start, ITEMS_PER_PAGE);
 
-        return this.transformNotes(pageNotes);
+        return pageNotes;
     }
 
     async loadNotes() {
@@ -121,10 +130,18 @@ export default class App extends Component {
     }
 
     async onRemove(index) {
+        const { page } = this.state;
         const notes = this.state.notes.slice(0);
         notes.splice(index, 1);
 
         await Storage.save(notes);
+
+        const pageNotes = this.getNotesForCurrentPage(page, notes);
+
+        if (pageNotes.length < 1 && page > 0) {
+            this.setState({ notes, page: page - 1 });
+            return;
+        }
 
         this.setState({ notes });
     }
@@ -181,7 +198,7 @@ export default class App extends Component {
 
         if (!editing) {
             listing = (
-                <NoteList notes={this.getNotesForCurrentPage(notes)}
+                <NoteList notes={this.getNotesForCurrentPage(page, notes)}
                     onEdit={this.onEdit.bind(this)}
                     onRemove={this.onRemove.bind(this)}
                     onCopy={this.onCopy.bind(this)} />

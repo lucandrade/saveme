@@ -19,7 +19,7 @@ export default class NoteItem extends Component {
 
         return (
             <div className="sm-note-title">
-                {title} - (<small>{timeAgo.format(createdAt)}</small>)
+                {title} <small>({timeAgo.format(createdAt)})</small>
             </div>
         );
     }

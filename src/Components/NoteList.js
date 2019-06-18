@@ -14,13 +14,13 @@ export default class NoteList extends Component {
         this.props.onEdit(index);
     }
 
-    renderNote(note, index) {
+    renderNote(note) {
         return (
-            <NoteItem key={index}
+            <NoteItem key={note.index}
                 note={note}
-                onEdit={this.onEdit.bind(this, index)}
-                onRemove={this.onRemove.bind(this, index)}
-                onCopy={this.onCopy.bind(this, index)} />
+                onEdit={this.onEdit.bind(this, note.index)}
+                onRemove={this.onRemove.bind(this, note.index)}
+                onCopy={this.onCopy.bind(this, note.index)} />
         );
     }
 
