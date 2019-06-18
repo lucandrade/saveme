@@ -5,6 +5,18 @@ import NoteList from './Components/NoteList';
 import Pagination from './Components/Pagination';
 import SearchForm from './Components/SearchForm';
 import Storage from './Storage';
+import { LoremIpsum } from 'lorem-ipsum';
+
+const lorem = new LoremIpsum({
+    sentencesPerParagraph: {
+      max: 8,
+      min: 4,
+    },
+    wordsPerSentence: {
+      max: 16,
+      min: 4,
+    }
+});
 
 const ITEMS_PER_PAGE = 5;
 
@@ -222,6 +234,47 @@ export default class App extends Component {
         });
     }
 
+    createRandomNote(index) {
+        let title = lorem.generateWords(1);
+        title = title.charAt(0).toUpperCase() + title.slice(1);
+        const text = lorem.generateParagraphs(1);
+
+        return {
+            title,
+            text,
+            index,
+            createdAt: new Date(),
+        };
+    }
+
+    async onCreateRandomNotes() {
+        const notes = this.state.notes.slice(0);
+        
+        for (let a = 0; a < 10; a += 1) {
+            notes.push(this.createRandomNote(notes.length));
+        }
+
+        await Storage.save(notes);
+
+        this.setState({ notes });
+    }
+
+    renderDevTool() {
+        if (process.env.NODE_ENV === 'production') {
+            return null;
+        }
+
+        return (
+            <div className="sm-dev-tools">
+                <button type="button"
+                    className="sm-button sm-primary"
+                    onClick={this.onCreateRandomNotes.bind(this)}>
+                    Create Random Notes
+                </button>
+            </div>
+        );
+    }
+
     renderLoading() {
         return (
             <div className="sm-loading">
@@ -262,6 +315,7 @@ export default class App extends Component {
         return (
             <div className="sm-app sm-loaded">
                 <NavBar onClear={this.onClearNotes.bind(this)} />
+                {this.renderDevTool()}
                 {search}
                 <NoteForm editing={editing}
                     note={note}

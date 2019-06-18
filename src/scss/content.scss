@@ -21,4 +21,8 @@ html, body {
     &.sm-loaded {
         min-height: $app-height - 50px;
     }
+
+    .sm-dev-tools {
+        padding: $spacing;
+    }
 }
