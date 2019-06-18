@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
 import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+import React, { Component } from 'react';
 
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US');

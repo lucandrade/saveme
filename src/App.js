@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Storage from './Storage';
 import NavBar from './Components/NavBar';
-import NoteList from './Components/NoteList';
 import NoteForm from './Components/NoteForm';
+import NoteList from './Components/NoteList';
 import Pagination from './Components/Pagination';
 import SearchForm from './Components/SearchForm';
+import Storage from './Storage';
 
 const ITEMS_PER_PAGE = 5;
 
