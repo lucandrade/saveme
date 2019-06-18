@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 
 export default class NoteForm extends Component {
+    constructor(props) {
+        super(props);
+        this.titleRef = React.createRef();
+    }
+
+    componentDidUpdate(props) {
+        if (!props.editing && this.props.editing) {
+            this.titleRef.current.focus();
+        }
+    }
+
     onSave(event) {
         event.preventDefault();
         this.props.onSave();
@@ -37,6 +48,7 @@ export default class NoteForm extends Component {
                     <input type="text"
                         id="title"
                         className="sm-form-control"
+                        ref={this.titleRef}
                         value={title}
                         onChange={this.onChange.bind(this)} />
                 </div>
