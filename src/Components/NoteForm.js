@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class NoteForm extends Component {
     constructor(props) {
@@ -28,7 +30,7 @@ export default class NoteForm extends Component {
         return (
             <div className="sm-form">
                 <button type="button" className="sm-button sm-primary" onClick={this.props.onNew}>
-                    <i className="fas fa-plus" /> New Note
+                    <FontAwesomeIcon icon={faPlus} /> New Note
                 </button>
             </div>
         );

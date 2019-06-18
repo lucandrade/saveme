@@ -1,5 +1,7 @@
 import Dropdown from 'rc-dropdown';
 import 'rc-dropdown/assets/index.css';
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from 'react';
 
 export default class NavBar extends Component {
@@ -19,7 +21,7 @@ export default class NavBar extends Component {
                 overlayClassName="sm-dropdown"
                 overlay={this.renderMenuItems()}>
                 <div className="sm-dropdown-button">
-                    <i className="fas fa-bars" />
+                    <FontAwesomeIcon icon={faBars} />
                 </div>
             </Dropdown>
         );

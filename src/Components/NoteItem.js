@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US');
@@ -35,10 +37,10 @@ export default class NoteItem extends Component {
                 </div>
                 <div className="sm-note-actions">
                     <span className="sm-button sm-icon" onClick={this.props.onRemove}>
-                        Remove <i className="fas fa-trash-alt" />
+                        Remove <FontAwesomeIcon icon={faTrashAlt} />
                     </span>
                     <span className="sm-button sm-icon sm-effect" onClick={this.props.onCopy}>
-                        Copy <i className="fas fa-copy" />
+                        Copy <FontAwesomeIcon icon={faCopy} />
                     </span>
                 </div>
             </li>
