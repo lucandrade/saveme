@@ -1,3 +1,5 @@
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from 'react';
 
 export default class SearchForm extends Component {
@@ -27,7 +29,11 @@ export default class SearchForm extends Component {
         return (
             <form className="sm-form sm-form-search" autoComplete="off" onSubmit={this.onSubmit.bind(this)}>
                 <div className="sm-form-group">
+                    <label htmlFor="search" className="sm-icon">
+                        <FontAwesomeIcon icon={faSearch} />
+                    </label>
                     <input type="text"
+                            id="search"
                             className="sm-form-control"
                             value={q}
                             placeholder="Search"

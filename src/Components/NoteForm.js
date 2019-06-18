@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from 'react';
 
 export default class NoteForm extends Component {
     constructor(props) {
