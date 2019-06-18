@@ -1,3 +1,5 @@
+import { faEraser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from 'react';
 import NoteItem from './NoteItem';
 
@@ -24,9 +26,27 @@ export default class NoteList extends Component {
         );
     }
 
+    renderSearch() {
+        const { q, total } = this.props;
+
+        if (!q) {
+            return null;
+        }
+
+        return (
+            <div className="sm-search-title">
+                <span>{total} notes found with "{q}"</span>
+                <span className="sm-button sm-icon" onClick={this.props.onClear}>
+                    Clear <FontAwesomeIcon icon={faEraser} />
+                </span>
+            </div>
+        );
+    }
+
     render() {
         return (
             <div className="sm-notes">
+                {this.renderSearch()}
                 <ul>
                     {this.props.notes.map(this.renderNote.bind(this))}
                 </ul>

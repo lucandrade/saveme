@@ -230,6 +230,9 @@ export default class App extends Component {
         if (!editing) {
             listing = (
                 <NoteList notes={pageNotes}
+                    total={formattedNotes.length}
+                    q={q}
+                    onClear={this.onChangeQuery.bind(this, '')}
                     onEdit={this.onEdit.bind(this)}
                     onRemove={this.onRemove.bind(this)}
                     onCopy={this.onCopy.bind(this)} />
