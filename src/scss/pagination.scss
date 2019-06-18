@@ -1,0 +1,25 @@
+.sm-pagination {
+    margin-top: $spacing;
+    padding: $spacing;
+
+    .sm-pagination-button {
+        padding: $spacing / 2 $spacing;
+        border: none;
+        border-radius: $border-radius;
+        font-size: $font-size * 0.9;
+        background-color: $primary-color;
+        color: $secondary-color;
+
+        &[disabled] {
+            opacity: 0.8;
+        }
+
+        &:hover:not([disabled]) {
+            cursor: pointer;
+        }
+
+        &:not(:first-of-type) {
+            margin-left: $spacing;
+        }
+    }
+}

@@ -3,12 +3,17 @@ import Storage from './Storage';
 import NavBar from './Components/NavBar';
 import NoteList from './Components/NoteList';
 import NoteForm from './Components/NoteForm';
+import Pagination from './Components/Pagination';
+
+const ITEMS_PER_PAGE = 5;
 
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: true,
+            page: 1,
+            allNotes: [],
             notes: [],
             note: {
                 index: null,
@@ -31,6 +36,23 @@ export default class App extends Component {
 
             return n;
         });
+    }
+
+    getNumberOfPages(notes) {
+        if (notes.length < 1) {
+            return 0;
+        }
+
+        return Math.ceil(notes.length / ITEMS_PER_PAGE);
+    }
+
+    getNotesForCurrentPage(notes) {
+        const { page } = this.state;
+        const copy = notes.slice(0);
+        const start = (page - 1) * ITEMS_PER_PAGE;
+        const pageNotes = copy.splice(start, ITEMS_PER_PAGE);
+
+        return this.transformNotes(pageNotes);
     }
 
     async loadNotes() {
@@ -133,6 +155,12 @@ export default class App extends Component {
         });
     }
 
+    onChangePage(page) {
+        this.setState({
+            page,
+        });
+    }
+
     renderLoading() {
         return (
             <div className="sm-loading">
@@ -148,19 +176,31 @@ export default class App extends Component {
             return this.renderLoading();
         }
 
+        const { editing, notes, note, page } = this.state;
+        let listing = null;
+
+        if (!editing) {
+            listing = (
+                <NoteList notes={this.getNotesForCurrentPage(notes)}
+                    onEdit={this.onEdit.bind(this)}
+                    onRemove={this.onRemove.bind(this)}
+                    onCopy={this.onCopy.bind(this)} />
+            );
+        }
+
         return (
             <div className="sm-app sm-loaded">
                 <NavBar onClear={this.onClearNotes.bind(this)} />
-                <NoteForm editing={this.state.editing}
-                    note={this.state.note}
+                <NoteForm editing={editing}
+                    note={note}
                     onChange={this.onChange.bind(this)}
                     onNew={this.onNew.bind(this)}
                     onCancel={this.onCancel.bind(this)}
                     onSave={this.onSave.bind(this)} />
-                <NoteList notes={this.transformNotes(this.state.notes)}
-                    onEdit={this.onEdit.bind(this)}
-                    onRemove={this.onRemove.bind(this)}
-                    onCopy={this.onCopy.bind(this)} />
+                {listing}
+                <Pagination page={page}
+                    pages={this.getNumberOfPages(notes)}
+                    onClick={this.onChangePage.bind(this)} />
             </div>
         );
     }
