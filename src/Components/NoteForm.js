@@ -44,7 +44,7 @@ export default class NoteForm extends Component {
         }
 
         return (
-            <form className="sm-form" onSubmit={this.onSave.bind(this)}>
+            <form className="sm-form" autoComplete="off" onSubmit={this.onSave.bind(this)}>
                 <div className="sm-form-group">
                     <label htmlFor="title">Title</label>
                     <input type="text"
