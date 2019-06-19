@@ -1,3 +1,4 @@
+import casual from 'casual-browserify';
 import React, { Component } from 'react';
 import NavBar from './Components/NavBar';
 import NoteForm from './Components/NoteForm';
@@ -5,18 +6,6 @@ import NoteList from './Components/NoteList';
 import Pagination from './Components/Pagination';
 import SearchForm from './Components/SearchForm';
 import Storage from './Storage';
-import { LoremIpsum } from 'lorem-ipsum';
-
-const lorem = new LoremIpsum({
-    sentencesPerParagraph: {
-      max: 8,
-      min: 4,
-    },
-    wordsPerSentence: {
-      max: 16,
-      min: 4,
-    }
-});
 
 const ITEMS_PER_PAGE = 5;
 
@@ -235,9 +224,8 @@ export default class App extends Component {
     }
 
     createRandomNote(index) {
-        let title = lorem.generateWords(1);
-        title = title.charAt(0).toUpperCase() + title.slice(1);
-        const text = lorem.generateParagraphs(1);
+        let title = casual.title;
+        const text = casual.text + "\r\n" + casual.text;
 
         return {
             title,

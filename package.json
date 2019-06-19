@@ -36,6 +36,6 @@
     ]
   },
   "devDependencies": {
-    "lorem-ipsum": "^2.0.3"
+    "casual-browserify": "^1.5.19-2"
   }
 }
