@@ -1,11 +1,7 @@
 import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
 import React, { Component } from 'react';
-
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo('en-US');
+import { format } from 'timeago.js';
 
 export default class NoteItem extends Component {
     renderTitle(note) {
@@ -21,7 +17,7 @@ export default class NoteItem extends Component {
 
         return (
             <div className="sm-note-title">
-                {title} <small>({timeAgo.format(createdAt)})</small>
+                {title} <small>({format(createdAt)})</small>
             </div>
         );
     }
